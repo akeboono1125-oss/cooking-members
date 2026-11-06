@@ -104,7 +104,7 @@ class ProfileTest extends TestCase
         $user->withdraw();
 
         $this->assertSoftDeleted($user);
-        $this->assertSame('deleted_' . $user->id . '_test@example.com', $user->fresh()->email);
+        $this->assertSame('deleted_'.$user->id.'_test@example.com', $user->fresh()->email);
 
         $response = $this->post('/register', [
             'name' => 'Test User',
@@ -113,8 +113,8 @@ class ProfileTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        $response->assertRedirect(route('dashboard',absolute: false));
-        $this->assertDatabaseHas('users',[
+        $response->assertRedirect(route('dashboard', absolute: false));
+        $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
             'deleted_at' => null,
         ]);
