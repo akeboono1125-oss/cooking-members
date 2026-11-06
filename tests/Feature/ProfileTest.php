@@ -76,7 +76,7 @@ class ProfileTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertGuest();
-        $this->assertNull($user->fresh());
+        $this->assertSoftDeleted($user);
     }
 
     public function test_correct_password_must_be_provided_to_delete_account(): void
@@ -95,5 +95,28 @@ class ProfileTest extends TestCase
             ->assertRedirect('/profile');
 
         $this->assertNotNull($user->fresh());
+    }
+
+    public function test_withdrawn_email_can_be_used_to_register_again(): void
+    {
+        $user = User::factory()->create(['email' => 'test@example.com']);
+
+        $user->withdraw();
+
+        $this->assertSoftDeleted($user);
+        $this->assertSame('deleted_' . $user->id . '_test@example.com', $user->fresh()->email);
+
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $response->assertRedirect(route('dashboard',absolute: false));
+        $this->assertDatabaseHas('users',[
+            'email' => 'test@example.com',
+            'deleted_at' => null,
+        ]);
     }
 }
