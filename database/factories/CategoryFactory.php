@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->unique()->randomElement(['和食', '洋食', '中華', 'お菓子', 'パン']),
         ];
     }
 }

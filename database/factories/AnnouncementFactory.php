@@ -18,7 +18,9 @@ class AnnouncementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->randomElement(['年末年始の休講のお知らせ', '12月の体験レッスンのご案内', '新しい講師が加わりました']),
+            'body' => fake()->realText(800),
+            'published_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
