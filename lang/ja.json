@@ -35,5 +35,18 @@
     "Update Password": "パスワードの変更",
     "Update your account's profile information and email address.": "名前とメールアドレスを変更できます。",
     "Your email address is unverified.": "メールアドレスの確認が済んでいません。",
-    "You're logged in!": "ログインしました。"
+    "You're logged in!": "ログインしました。",
+    "Verify your email address": "メールアドレスの確認のお願い",
+    "Please click the button below to verify your email address.": "ご登録ありがとうございます。下のボタンをクリックして、メールアドレスの確認を完了してください。",
+    "Verify Email Address": "メールアドレスを確認する",
+    "If you did not create an account, no further action is required.": "このメールに心当たりがない場合は、何もせずに破棄してください。",
+    "Reset your password": "パスワード再設定のご案内",
+    "You are receiving this email because we received a password reset request for your account.": "パスワードの再設定のお申し込みを受け付けました。下のボタンから、新しいパスワードを設定してください。",
+    "This password reset link will expire in :count minutes.": "このリンクの有効期限は:count分です。",
+    "If you did not request a password reset, no further action is required.": "パスワードの再設定をお申し込みでない場合は、このメールを破棄してください。パスワードは変更されません。",
+    "Hello!": "こんにちは。",
+    "Whoops!": "エラーが発生しました。",
+    "Regards,": "今後ともよろしくお願いいたします。",
+    "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser:": "「:actionText」ボタンをクリックできない場合は、次のURLをコピーしてブラウザに貼り付けてください：",
+    "All rights reserved.": "All rights reserved."
 }
