@@ -18,6 +18,11 @@
                     <x-nav-link :href="route('announcements.index')" :active="request()->routeIs('announcements.*')">
                         お知らせ
                     </x-nav-link>
+                    @auth
+                    <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')">
+                        レシピ記事
+                    </x-nav-link>
+                    @endauth
                 </div>
             </div>
 
@@ -83,6 +88,11 @@
             <x-responsive-nav-link :href="route('announcements.index')" :active="request()->routeIs('announcements.*')">
                 お知らせ
             </x-responsive-nav-link>
+            @auth
+            <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.*')">
+                レシピ記事
+            </x-responsive-nav-link>
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
