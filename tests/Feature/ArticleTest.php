@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -54,5 +55,59 @@ class ArticleTest extends TestCase
         $response = $this->actingAs($user)->get(route('articles.show', $article));
 
         $response->assertNotFound();
+    }
+
+    public function test_articles_can_be_filtered_by_category(): void
+    {
+        $categoryA = Category::factory()->create();
+        $categoryB = Category::factory()->create();
+        $articleA = Article::factory()->create(['category_id' => $categoryA->id, 'title' => 'カテゴリーAのタイトル']);
+        $articleB = Article::factory()->create(['category_id' => $categoryB->id, 'title' => 'カテゴリーBのタイトル']);
+
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('articles.index', ['category' => $categoryA->id]));
+
+        $response->assertSee($articleA->title);
+        $response->assertDontSee($articleB->title);
+    }
+
+    public function test_articles_can_be_searched_by_title(): void
+    {
+        $articleA = Article::factory()->create(['title' => 'カレーの作り方', 'body' => '肉を切り、炒める']);
+        $articleB = Article::factory()->create(['title' => 'ハンバーグの作り方', 'body' => '魂がこもっていれば完成']);
+
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('articles.index', ['keyword' => 'ハンバーグ']));
+
+        $response->assertSee($articleB->title);
+        $response->assertDontSee($articleA->title);
+    }
+
+    public function test_articles_can_be_searched_by_body(): void
+    {
+        $articleA = Article::factory()->create(['title' => 'カレーの作り方', 'body' => '肉を切り、炒める']);
+        $articleB = Article::factory()->create(['title' => 'ハンバーグの作り方', 'body' => '魂がこもっていれば完成']);
+
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('articles.index', ['keyword' => '魂']));
+
+        $response->assertSee($articleB->title);
+        $response->assertDontSee($articleA->title);
+    }
+
+    public function test_search_does_not_show_unpublished_articles(): void
+    {
+
+        $articleA = Article::factory()->create(['title' => 'カレーの作り方', 'body' => '肉を切る']);
+        $articleB = Article::factory()->scheduled()->create(['title' => 'ハンバーグの作り方', 'body' => 'カレーを叩く']);
+        $articleC = Article::factory()->draft()->create(['title' => 'うどんの作り方', 'body' => 'カレーにしてすする']);
+
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('articles.index', ['keyword' => 'カレー']));
+
+        $response->assertSee($articleA->title);
+        $response->assertDontSee($articleB->title);
+        $response->assertDontSee($articleC->title);
+
     }
 }
