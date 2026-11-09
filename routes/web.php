@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FavoriteController;
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('/', function () {
             return view('admin.dashboard');
         })->name('dashboard');
+        Route::resource('articles', AdminArticleController::class)->except('show');
     });
 
 require __DIR__.'/auth.php';

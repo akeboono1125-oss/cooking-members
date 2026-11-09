@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <p class="text-gray-500">管理画面です。</p>
+            <a href="{{ route('admin.articles.index') }}" class="underline">記事の管理</a>
         </div>
     </div>
 </x-app-layout>

@@ -17,7 +17,7 @@ class AdminTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.dashboard'));
 
         $response->assertOk();
-        $response->assertSee('管理画面です。');
+        $response->assertSee(route('admin.articles.index'));
     }
 
     public function test_member_cannot_view_admin_dashboard(): void
