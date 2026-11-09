@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
+    Route::post('articles/{article}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::delete('articles/{article}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+    Route::get('favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 });
 
 require __DIR__.'/auth.php';

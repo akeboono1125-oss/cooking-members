@@ -14,8 +14,7 @@ class ArticleController extends Controller
         $inCategory = $request->input('category');
         $inKeyword = $request->input('keyword');
         $articles = Article::with('category')
-            ->where('status', 'published')
-            ->where('published_at', '<=', now())
+            ->published()
             ->when($inCategory, function ($query, $inCategory) {
                 $query->where('category_id', $inCategory);
             })
@@ -34,10 +33,14 @@ class ArticleController extends Controller
         return view('articles.index', compact('articles', 'categories'));
     }
 
-    public function show(Article $article): View
+    public function show(Request $request, Article $article): View
     {
-        abort_if($article->status !== 'published' || $article->published_at === null || $article->published_at->isFuture(), 404);
+        abort_unless($article->isPublished(), 404);
+        $isFavorite = $request->user()
+            ->favoriteArticles()
+            ->where('articles.id', $article->id)
+            ->exists();
 
-        return view('articles.show', compact('article'));
+        return view('articles.show', compact('article', 'isFavorite'));
     }
 }
