@@ -25,6 +25,11 @@
                     <x-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.*')">
                         お気に入り
                     </x-nav-link>
+                    @if (auth()->user()->is_admin)
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                            管理画面
+                        </x-nav-link>
+                    @endif
                     @endauth
                 </div>
             </div>
@@ -98,6 +103,11 @@
             <x-responsive-nav-link :href="route('favorites.index')" :active="request()->routeIs('favorites.*')">
                 お気に入り
             </x-responsive-nav-link>
+            @if (auth()->user()->is_admin)
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                    管理画面
+                </x-responsive-nav-link>
+            @endif
             @endauth
         </div>
 

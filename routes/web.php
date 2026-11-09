@@ -31,4 +31,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 });
 
+Route::middleware(['auth', 'verified', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+    });
+
 require __DIR__.'/auth.php';
